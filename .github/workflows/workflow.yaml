@@ -23,6 +23,5 @@ jobs:
           context: ./src
           file: ./src/Dockerfile
           push: true
-          tags: |
-            thiagohprado/my-express-app:${{github.run.number}}
+          tags:
             thiagohprado/my-express-app:latest
