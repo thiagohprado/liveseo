@@ -6,7 +6,7 @@
     app.use(express.json()); // For parsing JSON request bodies
 
     app.get('/', (req, res) => {
-      res.send('Hello LiveSEO from Express API !');
+      res.send('Hello LiveSEO from Express API on K8S');
     });
 
     app.listen(PORT, () => {
