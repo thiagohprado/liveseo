@@ -5,7 +5,7 @@ on:
     branches: ["main"]
     
 jobs:
-  ci:
+  CI:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,3 +26,19 @@ jobs:
           tags: |
             thiagohprado/my-express-app:latest
             thiagohprado/my-express-app:${{github.run_number}}
+
+
+
+  CD:
+    runs-on: ubuntu-latest
+    needs: [CI]
+
+    steps:
+      - uses: actions/checkout@v5.0.0
+
+      - name: Kubernetes Set Context
+        uses: Azure/k8s-set-context@v3.0
+        with:
+          method: kubeconfig
+          kubeconfig: ${{secrets.KUBECONFIG}}
+    
