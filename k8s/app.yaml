@@ -46,9 +46,10 @@ spec:
           capacity:
             storage: 1Gi
           accessModes:
-            - ReadWriteMany
+            - ReadWriteOnce
+          persistentVolumeReclaimPolicy: Retain
           storageClassName: "" 
-          #hostPath: # Use apenas para desenvolvimento e teste
+          hostPath:
             path: "/mnt/data"
 
 
@@ -59,7 +60,7 @@ spec:
           name: pvc-log
         spec:
           accessModes:
-            - ReadWriteMany
+            - ReadWriteOnce
           storageClassName: ""
           resources:
             requests:
