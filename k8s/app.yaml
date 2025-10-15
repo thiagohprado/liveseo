@@ -64,5 +64,3 @@ spec:
          #resources:
           #  requests:
             #  storage: 5Gi
-          # hostPath: # Use apenas para desenvolvimento e teste
-           # path: "/mnt/data"
