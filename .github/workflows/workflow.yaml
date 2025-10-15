@@ -25,4 +25,4 @@ jobs:
           push: true
           tags: |
             thiagohprado/my-express-app:latest
-            thiagohprado/my-express-app:v1
+            thiagohprado/my-express-app:${{github.run.number}}
