@@ -1,0 +1,84 @@
+Teste 1 – Docker
+
+Para reduzir o tamanho da imagem e garantir que ela seja adequada para produção:
+
+Eu escolheria a imagem base (node:lts-alpine) oficial nodejs na versão LTS Alpine Linux, por ser mais enxuta e segura.
+Apesar do Javascript não ser uma linguagem compilada, eu usaria o conceito de multi-stage, permitindo construir uma imagem final pequena, usando uma imagem de construção maior e copiando apenas os artefatos necessários para a imagem final(produção).
+Agruparia várias instruções RUN em um único comando usando && para reduzir o número de camadas na imagem.
+E também adicionaria um arquivo .dockerignore no projeto para que seja excluído os arquivos desnecessários.
+Ainda pensando em segurança, eu também usaria uma solução de gerenciamento de segredos, para evitar que as variáveis de ambiente sensíveis como senhas ou chaves sejam expostas.
+
+
+Comandos usados:
+npm init -y
+npm install express
+vim app.js
+vim Dockerfile
+vim .dockerignore
+docker build -t my-express-app .
+docker run -d -p 3001:3001 my-express-app
+
+Arquivos usados:
+app.js
+Dockerfile
+.dockerignore
+
+
+---
+
+Teste 2 - Kubernetes
+
+Para variaveis de ambiente não sensíveis usaria ConfigMaps e para as sensíveis (ex: senhas) usaria Secrets.
+Para o armazenamento persistente de logs, eu criaria um PersistentVolume (PV), Criaria um PersistentVolumeClaim (PVC) para que os pods solicitem o armazenamento e adicionaria o volume criado ao deployment.
+
+
+Comandos usados:
+minikube start
+vim app.yaml
+kubectl apply -f app.yaml
+
+Arquivos usados:
+app.yaml
+
+---
+
+Teste 3 - CI/CD com GitHub Actions
+
+Organizaria os dados sensíveis como secrets do github actions, as demais variáveis de ambiente organizaria como variables, Organizaria o versionamento do codigo no github e o versionamento das imagens em um container registry.
+
+Arquivos usados: .github/workflows/workflow.yaml
+
+---
+
+Teste 4 – Banco de Dados (MySQL / RDS)
+
+- Criar uma VPC;
+- Criar uma private subnet;
+- Criar a instância RDS dentro da VPC e na sub-rede privada;
+- Criar um grupo de segurança, restringindo acesso publico e liberando a porta do banco apenas a partir de IPs específicos;
+- Habilitar o backup automatizado com um período de retenção adequado;
+- Colocar uma senha forte para o usuário master;
+- Criar roles específicas para diferentes tipos de acesso ao banco, sempre baseado no princípio do menor privilégio;
+
+Caso seja um MySQL usaria a query abaixo
+select * from Users limit 1;
+
+---
+
+Teste 5 – Resolução de Problemas
+
+Verificar a conexao da aplicação com o banco e se existe uma consulta que esteja sendo mais requisitada a ponto de impactar.
+Para disponibilizar o serviço ,voltaria o ambiente de produção para a versão anterior do deploy.
+Subiria o deploy que apresentou erro 500 em um ambiente isolado de teste, e tentaria um troubleshoot com mais tempo, caso seja consultas pesadas, otimizaria essas consultas e testaria novamente.
+
+---
+
+Teste 6 – Arquitetura e Escalabilidade
+
+Diagrama: k8s.jpeg
+
+As requisições dos usuarios batem no balanceador de carga, que por sua vez encaminham aos pods do cluster kubernetes;
+Conforme a demanda de requisições muda, o cluster poderá escalar (verticalmente) para baixo ou para cima de acordo com os limites minimo e máximo configurados.
+O Cloudwatch coleta métricas de desempenhopermite, permite verificarmos o monitoramento e os logs do cluster e também pode gerar alertas.
+O Amazon RDS bem configurado, oferece um banco de dados gerenciado e seguro para a nossa aplicação.
+
