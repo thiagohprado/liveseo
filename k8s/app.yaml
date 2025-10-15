@@ -8,7 +8,7 @@
         matchLabels:
           app: my-express-app
       template:
-        metadata:
+      metadata:
           labels:
             app: my-express-app
         spec:
