@@ -20,7 +20,7 @@
             volumeMounts:
               - name: volume-log
                 mountPath: /app/logs # O caminho dentro do contêiner onde os logs serão salvos
-          volumes:
+         volumes:
          - name: volume-log
             persistentVolumeClaim:
               claimName: pvc-log
