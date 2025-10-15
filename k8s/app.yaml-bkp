@@ -1,0 +1,69 @@
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: my-express-app
+    spec:
+      replicas: 10
+      selector:
+        matchLabels:
+          app: my-express-app
+      template:
+        metadata:
+          labels:
+            app: my-express-app
+        spec:
+          containers:
+          - name:  my-express-app
+            image: docker.io/thiagohprado/my-express-app:latest # Imagem construída com o Dockerfile no teste 1
+            ports:
+            - containerPort: 3001
+#            volumeMounts:
+#              - name: volume-log
+#                mountPath: /app/logs # O caminho dentro do contêiner onde os logs serão salvos
+#          volumes:
+#         - name: volume-log
+#            persistentVolumeClaim:
+#              claimName: pvc-log
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-express-app
+spec:
+  selector:
+    app: my-express-app
+  ports:
+    - port: 80
+      targetPort: 3001
+  type: LoadBalancer
+
+
+#---
+#        apiVersion: v1
+#        kind: PersistentVolume
+#        metadata:
+#          name: volume-log
+#        spec:
+#          capacity:
+#            storage: 1Gi
+#          accessModes:
+#            - ReadWriteOnce
+#          persistentVolumeReclaimPolicy: Retain
+#          storageClassName: "" 
+#          hostPath:
+#            path: "/mnt/data"
+
+
+#---
+#        apiVersion: v1
+#        kind: PersistentVolumeClaim
+#        metadata:
+#          name: pvc-log
+#        spec:
+#          accessModes:
+#            - ReadWriteOnce
+#          storageClassName: ""
+#          resources:
+#            requests:
+#              storage: 1Gi
