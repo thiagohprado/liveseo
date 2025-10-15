@@ -61,6 +61,6 @@ spec:
           accessModes:
             - ReadWriteOnce
           #storageClassName: "provisionador-padrao" # Nome da StorageClass para provisionamento dinâmico
-         #resources:
-          #  requests:
-            #  storage: 5Gi
+          resources:
+            requests:
+              storage: 100m
