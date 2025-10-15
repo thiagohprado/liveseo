@@ -17,13 +17,13 @@
             image: docker.io/thiagohprado/my-express-app:latest # Imagem construída com o Dockerfile no teste 1
             ports:
             - containerPort: 3001
-#            volumeMounts:
-#              - name: volume-log
-#                mountPath: /app/logs # O caminho dentro do contêiner onde os logs serão salvos
-#          volumes:
-#         - name: volume-log
-#            persistentVolumeClaim:
-#              claimName: pvc-log
+            volumeMounts:
+              - name: volume-log
+                mountPath: /app/logs # O caminho dentro do contêiner onde os logs serão salvos
+          volumes:
+         - name: volume-log
+            persistentVolumeClaim:
+              claimName: pvc-log
 
 ---
 apiVersion: v1
@@ -39,31 +39,30 @@ spec:
   type: LoadBalancer
 
 
-#---
-#        apiVersion: v1
-#        kind: PersistentVolume
-#        metadata:
-#          name: volume-log
-#        spec:
-#          capacity:
-#            storage: 1Gi
-#          accessModes:
-#            - ReadWriteOnce
-#          persistentVolumeReclaimPolicy: Retain
-#          storageClassName: "" 
-#          hostPath:
-#            path: "/mnt/data"
+---
+        apiVersion: v1
+        kind: PersistentVolume
+        metadata:
+          name: volume-log
+        spec:
+          capacity:
+            storage: 5Gi
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: "do-block-storage" 
+          hostPath:
+            path: "/mnt/data"
 
 
-#---
-#        apiVersion: v1
-#        kind: PersistentVolumeClaim
-#        metadata:
-#          name: pvc-log
-#        spec:
-#          accessModes:
-#            - ReadWriteOnce
-#          storageClassName: ""
-#          resources:
-#            requests:
-#              storage: 1Gi
+---
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: pvc-log
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: "do-block-storage"
+          resources:
+            requests:
+              storage: 1Gi
