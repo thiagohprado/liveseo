@@ -60,7 +60,9 @@ spec:
         spec:
           accessModes:
             - ReadWriteOnce
-          storageClassName: "provisionador-padrao" # Nome da StorageClass para provisionamento dinâmico
-          resources:
-            requests:
-              storage: 5Gi
+          #storageClassName: "provisionador-padrao" # Nome da StorageClass para provisionamento dinâmico
+         #resources:
+          #  requests:
+            #  storage: 5Gi
+           hostPath: # Use apenas para desenvolvimento e teste
+            path: "/mnt/data"
