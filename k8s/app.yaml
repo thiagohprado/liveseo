@@ -44,7 +44,7 @@ spec:
           name: volume-log
         spec:
           capacity:
-            storage: 100m
+            storage: 1Gi
           accessModes:
             - ReadWriteOnce # Permite leitura/gravação por um único nó
           # storageClassName: "" 
@@ -63,4 +63,4 @@ spec:
           #storageClassName: "provisionador-padrao" # Nome da StorageClass para provisionamento dinâmico
           resources:
             requests:
-              storage: 100m
+              storage: 1Gi
