@@ -46,9 +46,9 @@ spec:
           capacity:
             storage: 1Gi
           accessModes:
-            - ReadWriteOnce # Permite leitura/gravação por um único nó
-          # storageClassName: "" 
-          hostPath: # Use apenas para desenvolvimento e teste
+            - ReadWriteMany
+          storageClassName: "" 
+          #hostPath: # Use apenas para desenvolvimento e teste
             path: "/mnt/data"
 
 
@@ -59,8 +59,8 @@ spec:
           name: pvc-log
         spec:
           accessModes:
-            - ReadWriteOnce
-          storageClassName: "" # Nome da StorageClass para provisionamento dinâmico
+            - ReadWriteMany
+          storageClassName: ""
           resources:
             requests:
               storage: 1Gi
